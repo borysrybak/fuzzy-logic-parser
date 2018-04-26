@@ -2,16 +2,13 @@ import cv2
 import PIL
 from PIL import Image
 
-def image_resize(img):
-    basewidth = 800
-
+def image_resize(img_file):
+    basewidth = 1500
+    img = Image.open(img_file)
     wpercent = (basewidth / float(img.size[0]))
     hsize = int((float(img.size[1]) * float(wpercent)))
     img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
-
-    result = img
-
-    return result
+    img.save('handwritten/resized/resized_file_2.jpg')
 
 #def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
 #    # initialize the dimensions of the image to be resized and

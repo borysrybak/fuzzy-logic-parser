@@ -24,6 +24,7 @@ from send2trash import send2trash
 
 THIS_FOLDER = os.getcwd()
 INPUT_FOLDER = os.path.join(THIS_FOLDER, "img")
+RESIZEDIMG_FOLDER = os.path.join(INPUT_FOLDER, "resizedimg")
 
 def prepare_folders():
     """
@@ -58,6 +59,8 @@ def ocr_images():
 
     for image in images:
         input_path = os.path.join(INPUT_FOLDER, image)
+        result = post.post_ocr(input_path)
+        print(result)
 
 
 def main():

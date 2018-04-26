@@ -5,11 +5,11 @@ def run_azure_ocr():
     importer.main()
 
 def parse_results():
-    importer.main()
+    x
 
 def main():
     run_azure_ocr()
-    parse_results()
+    #parse_results()
 
 if __name__ == "__main__":
     main()
