@@ -1,14 +1,23 @@
 import cv2
 import PIL
+import ntpath
 from PIL import Image
 
-def image_resize(img_file):
+def image_resize(img_file_path):
+    img_file_name = path_leaf(img_file_path)
     basewidth = 1500
-    img = Image.open(img_file)
+    img = Image.open(img_file_path)
     wpercent = (basewidth / float(img.size[0]))
     hsize = int((float(img.size[1]) * float(wpercent)))
     img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
-    img.save('handwritten/resized/resized_file_2.jpg')
+    resized_img_path = 'img/resizedimg/resized_' + img_file_name
+    img.save(resized_img_path)
+
+    return resized_img_path
+
+def path_leaf(path):
+    head, tail = ntpath.split(path)
+    return tail or ntpath.basename(head)
 
 #def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
 #    # initialize the dimensions of the image to be resized and

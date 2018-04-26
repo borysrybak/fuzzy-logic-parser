@@ -28,7 +28,7 @@
     <Compile Include="importer.py" />
     <Compile Include="objectview.py" />
     <Compile Include="parser.py" />
-    <Compile Include="post.py" />
+    <Compile Include="httpservice.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

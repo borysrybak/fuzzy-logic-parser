@@ -17,7 +17,8 @@
 
 
 import os
-import post
+import httpservice
+import helpers
 
 from PIL import Image
 from send2trash import send2trash
@@ -32,7 +33,7 @@ def prepare_folders():
         Creates necessary folders
     """
 
-    for folder in [INPUT_FOLDER]:
+    for folder in [INPUT_FOLDER, RESIZEDIMG_FOLDER]:
         if not os.path.exists(folder):
             os.makedirs(folder)
 
@@ -59,7 +60,8 @@ def ocr_images():
 
     for image in images:
         input_path = os.path.join(INPUT_FOLDER, image)
-        result = post.post_ocr(input_path)
+        operationlocationaddress = httpservice.post_ocr(input_path)
+        result = httpservice.get_ocr(operationlocationaddress)
         print(result)
 
 
