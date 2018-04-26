@@ -65,8 +65,6 @@ sum_keys:
   - tariffa
   - ammontare
 
-sum_format: '^\d+(\,\d{1,2}|\.\d{1,2})?$'
-
-# Matches dates like 19.08.15 and 19. 08. 2015
-date_format: '.*?(?P<date>(\d{2,4}(\.\s?|[^a-zA-Z\d])\d{2}(\.\s?|[^a-zA-Z\d])(20)?1[1-9]))\s+'
+sum_format: '^\d+(\/\d{1,2}|\,\d{1,2}|\.\d{1,2})?$'
+date_format: '.*?(?P<date>(\d{2,4}(\.\s?|[^a-zA-Z\d])\d{1,2}(\.\s?|[^a-zA-Z\d])(20)?1[1-9]))'
 

@@ -9,7 +9,7 @@ import json
 headers = {
     # Request headers
     'Content-Type': 'application/octet-stream',
-    'Ocp-Apim-Subscription-Key': '',
+    'Ocp-Apim-Subscription-Key': 'a46a5277cdc5482795f7881abd6b9894',
 }
 
 params = urllib.parse.urlencode({
