@@ -28,6 +28,7 @@ def post_ocr(img_path):
     
         conn.request("POST", "/vision/v1.0/recognizeText?%s" % params, img, headers)
         response = conn.getresponse()
+
         operationlocationaddress = response.getheader('operation-location')
         conn.close()
 
@@ -40,7 +41,6 @@ def get_ocr(operationlocationaddress):
     try:
         conn = http.client.HTTPSConnection(regionapiaddress)
         conn.request("GET", "/vision/v1.0/textOperations/" + operationId, "{body}", headers)
-
         json, fail_condition = check_response_status(conn)
         while not fail_condition:
             conn = http.client.HTTPSConnection(regionapiaddress)
