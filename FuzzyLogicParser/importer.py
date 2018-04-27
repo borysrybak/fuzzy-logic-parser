@@ -64,9 +64,8 @@ def ocr_images():
         input_path = os.path.join(INPUT_FOLDER, image)
         operationlocationaddress = httpservice.post_ocr(input_path)
         jsonresult = httpservice.get_ocr(operationlocationaddress)
-        jsonstring = json.dumps(jsonresult)
-        with open('output/' + input_path + '.json', 'w') as outfile:
-            json.dump(jsonstring, outfile)
+        with open('output/' + helpers.path_leaf(input_path) + '.json', 'w') as outfile:
+            json.dump(jsonresult, outfile)
 
 def main():
     prepare_folders()

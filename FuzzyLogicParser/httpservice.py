@@ -14,7 +14,7 @@ headers = {
 
 params = urllib.parse.urlencode({
     # Request parameters
-    'handwriting': 'true',
+    'Printed': 'true',
 })
 
 regionapiaddress = 'westeurope.api.cognitive.microsoft.com'
@@ -26,7 +26,7 @@ def post_ocr(img_path):
         resized_img_path = helpers.image_resize(img_path)
         img = open(resized_img_path, 'rb').read()
     
-        conn.request("POST", "/vision/v1.0/recognizeText?%s" % params, img, headers)
+        conn.request("POST", "/vision/v2.0/recognizeText?mode=Printed", img, headers)
         response = conn.getresponse()
 
         operationlocationaddress = response.getheader('operation-location')
@@ -40,11 +40,11 @@ def get_ocr(operationlocationaddress):
     operationId = helpers.path_leaf(operationlocationaddress)
     try:
         conn = http.client.HTTPSConnection(regionapiaddress)
-        conn.request("GET", "/vision/v1.0/textOperations/" + operationId, "{body}", headers)
+        conn.request("GET", "/vision/v2.0/textOperations/" + operationId, "{body}", headers)
         jsonresult, fail_condition = check_response_status(conn)
         while not fail_condition:
             conn = http.client.HTTPSConnection(regionapiaddress)
-            conn.request("GET", "/vision/v1.0/textOperations/" + operationId, "{body}", headers)
+            conn.request("GET", "/vision/v2.0/textOperations/" + operationId, "{body}", headers)
             jsonresult, fail_condition = check_response_status(conn)
 
         conn.close()

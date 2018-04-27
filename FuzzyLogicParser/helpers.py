@@ -1,7 +1,10 @@
 import cv2
 import PIL
 import ntpath
+import base64
 from PIL import Image
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 def image_resize(img_file_path):
     img_file_name = path_leaf(img_file_path)
@@ -9,7 +12,10 @@ def image_resize(img_file_path):
     img = Image.open(img_file_path)
     wpercent = (basewidth / float(img.size[0]))
     hsize = int((float(img.size[1]) * float(wpercent)))
-    img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+    try:
+       img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+    except Exception as e:
+       print("[Errno {0}] {1}".format(e.errno, e.strerror))
     resized_img_path = 'img/resizedimg/resized_' + img_file_name
     img.save(resized_img_path)
 
