@@ -27,8 +27,8 @@ import yaml
 from objectview import ObjectView
 
 THIS_FOLDER = os.getcwd()
-STATS_OUTPUT_FORMAT = "{0:10.0f},{1:d},{2:d},{3:d},{4:d},\n"
-VERBOSE_OUTPUT_FORMAT = "Text, Market, Date, Sum"
+STATS_OUTPUT_FORMAT = "{0:10.0f},{1:d},{2:d},{3:d},\n"
+VERBOSE_OUTPUT_FORMAT = "Text, Date, Sum"
 
 
 class Receipt(object):
@@ -43,7 +43,6 @@ class Receipt(object):
         """
         
         self.config = config
-        self.market = self.date = self.sum = None
         self.lines = raw
         self.normalize()
         self.parse()
@@ -67,7 +66,6 @@ class Receipt(object):
             Parses obj data
         """
         
-        self.market = self.parse_market()
         self.date = self.parse_date()
         self.sum = self.parse_sum()
 
@@ -99,22 +97,6 @@ class Receipt(object):
             m = re.match(self.config.date_format, line)
             if m:  # We"re happy with the first match for now
                 return m.group(1)
-
-    def parse_market(self):
-        """
-        :return: str
-            Parses market data
-        """
-        
-        for int_accuracy in range(10, 6, -1):
-            accuracy = int_accuracy / 10.0
-
-            for market, spellings in self.config.markets.items():
-                for spelling in spellings:
-                    line = self.fuzzy_find(spelling, accuracy)
-                    if line:
-                        print(line, accuracy, market)
-                        return market
 
     def parse_sum(self):
         """
@@ -182,8 +164,7 @@ def output_statistics(stats, write_file="stats.csv"):
     """
 
     stats_str = STATS_OUTPUT_FORMAT.format(
-        time.time(), stats["total"], stats["market"], stats["date"],
-        stats["sum"]
+        time.time(), stats["total"], stats["date"], stats["sum"]
     )
     print(stats_str)
 
@@ -225,11 +206,9 @@ def ocr_receipts(config, receipt_files):
     for receipt_path in receipt_files:
         with open(receipt_path) as receipt:
             receipt = Receipt(config, receipt.readlines())
-            print(receipt_path, receipt.market, receipt.date, receipt.sum)
+            print(receipt_path, receipt.date, receipt.sum)
 
             stats["total"] += 1
-            if receipt.market:
-                stats["market"] += 1
             if receipt.date:
                 stats["date"] += 1
             if receipt.sum:

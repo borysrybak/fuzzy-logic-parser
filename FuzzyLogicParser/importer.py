@@ -19,6 +19,7 @@
 import os
 import httpservice
 import helpers
+import json
 
 from PIL import Image
 from send2trash import send2trash
@@ -26,6 +27,7 @@ from send2trash import send2trash
 THIS_FOLDER = os.getcwd()
 INPUT_FOLDER = os.path.join(THIS_FOLDER, "img")
 RESIZEDIMG_FOLDER = os.path.join(INPUT_FOLDER, "resizedimg")
+OUTPUT_FOLDER = os.path.join(THIS_FOLDER, "output")
 
 def prepare_folders():
     """
@@ -33,7 +35,7 @@ def prepare_folders():
         Creates necessary folders
     """
 
-    for folder in [INPUT_FOLDER, RESIZEDIMG_FOLDER]:
+    for folder in [INPUT_FOLDER, RESIZEDIMG_FOLDER, OUTPUT_FOLDER]:
         if not os.path.exists(folder):
             os.makedirs(folder)
 
@@ -61,9 +63,10 @@ def ocr_images():
     for image in images:
         input_path = os.path.join(INPUT_FOLDER, image)
         operationlocationaddress = httpservice.post_ocr(input_path)
-        result = httpservice.get_ocr(operationlocationaddress)
-        print(result)
-
+        jsonresult = httpservice.get_ocr(operationlocationaddress)
+        jsonstring = json.dumps(jsonresult)
+        with open('output/' + input_path + '.json', 'w') as outfile:
+            json.dump(jsonstring, outfile)
 
 def main():
     prepare_folders()

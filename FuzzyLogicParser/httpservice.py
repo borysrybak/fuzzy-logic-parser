@@ -41,15 +41,15 @@ def get_ocr(operationlocationaddress):
     try:
         conn = http.client.HTTPSConnection(regionapiaddress)
         conn.request("GET", "/vision/v1.0/textOperations/" + operationId, "{body}", headers)
-        json, fail_condition = check_response_status(conn)
+        jsonresult, fail_condition = check_response_status(conn)
         while not fail_condition:
             conn = http.client.HTTPSConnection(regionapiaddress)
             conn.request("GET", "/vision/v1.0/textOperations/" + operationId, "{body}", headers)
-            json, fail_condition = check_response_status(conn)
+            jsonresult, fail_condition = check_response_status(conn)
 
         conn.close()
 
-        return json
+        return jsonresult
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
